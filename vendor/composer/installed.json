@@ -8168,6 +8168,73 @@
         ]
     },
     {
+        "name": "tailflow/laravel-orion",
+        "version": "1.2.5",
+        "version_normalized": "1.2.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tailflow/laravel-orion.git",
+            "reference": "063f7c730cb2a2faf351e4be9799642296ffa4ba"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tailflow/laravel-orion/zipball/063f7c730cb2a2faf351e4be9799642296ffa4ba",
+            "reference": "063f7c730cb2a2faf351e4be9799642296ffa4ba",
+            "shasum": ""
+        },
+        "require": {
+            "ext-json": "*",
+            "illuminate/bus": ">=5.7",
+            "illuminate/contracts": ">=5.7",
+            "illuminate/database": ">=5.7",
+            "illuminate/http": ">=5.7",
+            "illuminate/pagination": ">=5.7",
+            "illuminate/support": ">=5.7",
+            "php": ">=7.2"
+        },
+        "require-dev": {
+            "mockery/mockery": "^1.0",
+            "orchestra/testbench": "^3.7|^4.0|^5.0|^6.0",
+            "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
+        },
+        "time": "2021-02-11T15:19:57+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-main": "1.0-dev"
+            },
+            "laravel": {
+                "providers": [
+                    "Orion\\OrionServiceProvider"
+                ],
+                "aliases": {
+                    "Orion": "Orion\\Facades\\Orion"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Orion\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Aleksei Zarubin",
+                "email": "alex@tailflow.org"
+            }
+        ],
+        "description": "Laravel Orion allows you to build a fully featured REST API based on your Eloquent models and relationships with the simplicity of Laravel as you love it.",
+        "keywords": [
+            "api",
+            "laravel"
+        ]
+    },
+    {
         "name": "tcg/voyager",
         "version": "1.x-dev",
         "version_normalized": "1.9999999.9999999.9999999-dev",
