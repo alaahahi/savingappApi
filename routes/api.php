@@ -6,6 +6,7 @@ use Orion\Facades\Orion;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardTypeController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,4 @@ Orion::resource('category', CategoryController::class);
 Orion::resource('card', CardController::class);
 Orion::resource('cardType', CardTypeController::class);
 
+Route::get('check_card/{cardNumber?}', [CustomerController::class, 'check_card'])->name('customer.check_card');
