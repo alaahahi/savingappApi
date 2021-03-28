@@ -8,6 +8,7 @@ use Orion\Concerns\DisableAuthorization;
 
 class CardTypeController extends Controller
 {
+    use DisablePagination;
     use DisableAuthorization;
     protected $model = Card_type::class; 
 }
