@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Card;
+use App\Models\Card_type;
 use Orion\Http\Controllers\Controller;
 use Orion\Concerns\DisableAuthorization;
 
-class CardController extends Controller
+class CardTypeController extends Controller
 {
     use DisableAuthorization;
-    protected $model = Card::class; 
-
+    protected $model = Card_type::class; 
 }
