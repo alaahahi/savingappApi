@@ -413,17 +413,36 @@ class CustomerController extends Controller
   
         return Response::json($customer);
     }
-
-    public function check_card(Request $request,$cardNumber)
+    public function check_card(Request $request,$cardNumber,$moblie)
     {
+        $new = date('Y-m-d');
         $customers = DB::table('card')
         ->join('card_type', 'card_type.id', '=', 'card.card_type_id')
         ->where('card.card_number', '=', $cardNumber )
         ->where('card.is_valid', '=', 1)
-        ->select('card.id')->get();
-        if ($request->ajax()) {
-        return Datatables::of($customers)->make(true);
+        ->select('card.id')->first();
+        if(!empty($customers))
+        {
+        $card = DB::table('card_user')
+        ->join('users', 'users.id', '=', 'card_user.user_id')
+        ->join('card', 'card.id', '=', 'card_user.card_id')
+        ->where('users.phone', '=', $moblie )->select('users.id')->first();
+        if(!empty($card))
+        return   response()->json('This Card is Used Befor');
+        else{
+        $day = DB::table('card')
+        ->join('card_type', 'card_type.id', '=', 'card.card_type_id')
+        ->where('card.id', '=', $customers->id)
+        ->select('card_type.validation')->first();
+        $day_str = "+$day->validation days";
+        $user_id= DB::table('users')->insertGetId(array('phone' => $moblie));
+        $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
+        DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$user_id,$new, $end_active]);
+        DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
         }
-        return   response()->json($customers);
+        return response()->json($customers->id);
+        }
+        else 
+        return response()->json('This Card is not Valid');
     } 
 }

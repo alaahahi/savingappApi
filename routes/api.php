@@ -27,4 +27,4 @@ Orion::resource('category', CategoryController::class);
 Orion::resource('card', CardController::class);
 Orion::resource('cardType', CardTypeController::class);
 
-Route::get('check_card/{cardNumber?}', [CustomerController::class, 'check_card'])->name('customer.check_card');
+Route::get('check_card/{cardNumber?}/{moblie?}', [CustomerController::class, 'check_card'])->name('customer.check_card');
