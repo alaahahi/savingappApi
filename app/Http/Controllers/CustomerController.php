@@ -407,13 +407,24 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $customer = Customer::where('id',$id)->delete();
-  
-        return Response::json($customer);
+    
+    public function check_card(Request $request,$moblie)
+    { 
+        $new = date('Y-m-d');
+        $card = DB::table('card_user')
+        ->join('users', 'users.id', '=', 'card_user.user_id')
+        ->join('card', 'card.id', '=', 'card_user.card_id')
+        ->where('users.phone', '=', $moblie )->select('card_user.id','card_user.strat_active','card_user.end_active')->first();
+        if(!empty($card)){
+            if($new < $card->end_active)
+            return   response()->json([$card->strat_active,$card->end_active]);
+            else 
+            return   response()->json(false);
+        }
+        else
+            return   response()->json(false);
     }
-    public function check_card(Request $request,$cardNumber,$moblie)
+    public function charge_card(Request $request,$cardNumber,$moblie)
     {
         $new = date('Y-m-d');
         $customers = DB::table('card')
