@@ -460,25 +460,35 @@ class CustomerController extends Controller
         else 
         return response()->json('This Card is not Valid');
     } 
+    public function getallcart(Request $request ,$moblie,$lang)
+    { 
+        $userid = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('users.id')->first();
+        $cart = DB::table('cart')
+        ->join('product', 'product.id', '=', 'cart.productId')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
+        ->where('cart.userId', '=', $userid->id )
+        ->where('product_translation.lang', '=', $lang )
+        ->select('*')->get();;
+        return response()->json($cart);
+        
+    }
     public function addtocart(Request $request ,$moblie)
     { 
-        $card = DB::table('card_user')
-        ->join('users', 'users.id', '=', 'card_user.user_id')
+        $card = DB::table('users')
         ->where('users.phone', '=', $moblie )->select('users.id')->first();
         DB::insert('insert into cart ( `quantity`, `productId`, `userId`) values (?,?,?)', [$request->quantity,$request->productId,$card->id]);
     }
     public function removfromcart($moblie,$id)
     { 
-        $card = DB::table('card_user')
-        ->join('users', 'users.id', '=', 'card_user.user_id')
+        $card = DB::table('users')
         ->where('users.phone', '=', $moblie )->select('users.id')->first();
         DB::table('cart')->where('userId', '=', $card->id)->where('productId', '=', $id)->delete();
 
     }
     public function removallcart($moblie)
     { 
-        $card = DB::table('card_user')
-        ->join('users', 'users.id', '=', 'card_user.user_id')
+        $card = DB::table('users')
         ->where('users.phone', '=', $moblie )->select('users.id')->first();
         DB::table('cart')->where('userId', '=', $card->id)->delete();
     }

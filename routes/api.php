@@ -29,6 +29,7 @@ Orion::resource('cardType', CardTypeController::class);
 
 Route::get('check_card/{moblie?}', [CustomerController::class, 'check_card'])->name('customer.check_card');
 Route::get('charge_card/{cardNumber?}/{moblie?}', [CustomerController::class, 'charge_card'])->name('customer.charge_card');
+Route::get('getallcart/{moblie?}/{lang?}', [CustomerController::class, 'getallcart'])->name('customer.getallcart');
 Route::post('addtocart/{moblie?}', [CustomerController::class, 'addtocart'])->name('customer.addtocart');
 Route::delete('removfromcart/{moblie?}/{id?}', [CustomerController::class, 'removfromcart'])->name('customer.removfromcart');
 Route::delete('removallcart/{moblie?}', [CustomerController::class, 'removallcart'])->name('customer.removallcart');
