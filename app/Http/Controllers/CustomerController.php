@@ -469,7 +469,7 @@ class CustomerController extends Controller
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('cart.userId', '=', $userid->id )
         ->where('product_translation.lang', '=', $lang )
-        ->select('*')->get();;
+        ->select('*')->get();
         return response()->json($cart);
         
     }
@@ -491,5 +491,27 @@ class CustomerController extends Controller
         $card = DB::table('users')
         ->where('users.phone', '=', $moblie )->select('users.id')->first();
         DB::table('cart')->where('userId', '=', $card->id)->delete();
+    }
+    public function products(Request $request ,$ids,$lang)
+    { 
+        $products = DB::table('product')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
+        ->whereIn('product.id',explode(",",$ids) )
+        ->where('product_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        return response()->json($products);
+    }
+    public function companies(Request $request ,$id ,$lang)
+    { 
+        $companies = 
+        DB::table('company')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->whereIn('company.id',explode(",",$id) )
+        ->where('company_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        return response()->json($companies);
+        
     }
 }

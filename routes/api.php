@@ -33,3 +33,5 @@ Route::get('getallcart/{moblie?}/{lang?}', [CustomerController::class, 'getallca
 Route::post('addtocart/{moblie?}', [CustomerController::class, 'addtocart'])->name('customer.addtocart');
 Route::delete('removfromcart/{moblie?}/{id?}', [CustomerController::class, 'removfromcart'])->name('customer.removfromcart');
 Route::delete('removallcart/{moblie?}', [CustomerController::class, 'removallcart'])->name('customer.removallcart');
+Route::get('products/{ids?}/{lang?}', [CustomerController::class, 'products'])->name('customer.products');
+Route::get('companies/{ids?}/{lang?}', [CustomerController::class, 'companies'])->name('customer.companies');
