@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardTypeController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Orion::resource('category', CategoryController::class);
 Orion::resource('card', CardController::class);
 Orion::resource('cardType', CardTypeController::class);
+Orion::morphToManyResource('posts', 'comments', UsersController::class);
 
 Route::get('check_card/{moblie?}', [CustomerController::class, 'check_card'])->name('customer.check_card');
 Route::get('charge_card/{cardNumber?}/{moblie?}', [CustomerController::class, 'charge_card'])->name('customer.charge_card');
