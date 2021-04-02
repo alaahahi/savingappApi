@@ -514,4 +514,23 @@ class CustomerController extends Controller
         return response()->json($companies);
         
     }
+    public function search(Request $request ,$q ,$lang)
+    { 
+        $companies = 
+        DB::table('company')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('company_translation.title', 'like', "%{$q}%")
+        ->where('company_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        $products = DB::table('product')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
+        ->where('product_translation.title', 'like', "%{$q}%")
+        ->where('product_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+         
+        return response()->json(['companies'=>$companies,'products'=>$products]);
+        
+    }
 }

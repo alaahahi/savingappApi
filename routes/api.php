@@ -37,3 +37,4 @@ Route::delete('removfromcart/{moblie?}/{id?}', [CustomerController::class, 'remo
 Route::delete('removallcart/{moblie?}', [CustomerController::class, 'removallcart'])->name('customer.removallcart');
 Route::get('products/{ids?}/{lang?}', [CustomerController::class, 'products'])->name('customer.products');
 Route::get('companies/{ids?}/{lang?}', [CustomerController::class, 'companies'])->name('customer.companies');
+Route::get('search/{q?}/{lang?}', [CustomerController::class, 'search']);
