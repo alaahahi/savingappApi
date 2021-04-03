@@ -533,4 +533,40 @@ class CustomerController extends Controller
         return response()->json(['companies'=>$companies,'products'=>$products]);
         
     }
+    public function categories(Request $request ,$lang)
+    { 
+        $category = 
+        DB::table('category')
+        ->join('category_translation', 'category_translation.categoryId', '=', 'category.id')
+        ->where('category_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        return response()->json($category);
+        
+    }
+    public function categories_companies(Request $request ,$categoryId ,$lang)
+    { 
+        $categories_companies = 
+        DB::table('category')
+        ->join('company', 'company.categoryId', '=', 'category.id')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('category.id', '=', $categoryId )
+        ->where('company_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        return response()->json($categories_companies);
+        
+    }
+    public function companies_products(Request $request ,$companyId ,$lang)
+    { 
+        $companies_products = 
+        DB::table('company')
+        ->join('product', 'product.companyId', '=', 'company.id')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
+        ->where('company.id', '=', $companyId )
+        ->where('product_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        return response()->json($companies_products);
+    }
 }
