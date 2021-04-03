@@ -569,4 +569,23 @@ class CustomerController extends Controller
         ->get();
         return response()->json($companies_products);
     }
+    public function home(Request $request ,$lang)
+    { 
+        $companies = 
+        DB::table('company')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('company.featured', '=', true )
+        ->where('company_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        $products = DB::table('product')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
+        ->where('product.featured', '=', true )
+        ->where('product_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+         
+        return response()->json(['companies'=>$companies,'products'=>$products]);
+        
+    }
 }

@@ -41,5 +41,7 @@ Route::get('search/{q?}/{lang?}', [CustomerController::class, 'search']);
 Route::get('categories/{lang?}', [CustomerController::class, 'categories']);
 Route::get('categories/{categoryId?}/companies/{lang?}', [CustomerController::class, 'categories_companies']);
 Route::get('companies/{companyId?}/products/{lang?}', [CustomerController::class, 'companies_products']);
+Route::get('home/{lang?}', [CustomerController::class, 'home']);
+
 
 
