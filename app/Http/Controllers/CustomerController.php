@@ -437,14 +437,15 @@ class CustomerController extends Controller
          $day = DB::table('card')
         ->join('card_type', 'card_type.id', '=', 'card.card_type_id')
         ->where('card.id', '=', $customers->id)
-        ->select('card_type.validation')->first();
+        ->select('card_type.validation','card_type.points')->first();
         $day_str = "+$day->validation days";
         $card = DB::table('card_user')
         ->join('users', 'users.id', '=', 'card_user.user_id')
         ->join('card', 'card.id', '=', 'card_user.card_id')
-        ->where('users.phone', '=', $moblie )->select('card_user.id','card_user.end_active')->first();
+        ->where('users.phone', '=', $moblie )->select('users.id as usersId','card_user.id','card_user.end_active')->first();
         if(!empty($card)){
         $end_active =date('Y-m-d',strtotime($day_str,strtotime($card->end_active)));
+        DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$card->usersId, $card->id,$day->points ]);
         DB::table('card_user')->where('id', $card->id)->update(['end_active' => $end_active]);
         DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
         return   response()->json( $end_active);
@@ -453,6 +454,7 @@ class CustomerController extends Controller
         $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
         $user_id= DB::table('users')->insertGetId(array('phone' => $moblie));
         DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$user_id,$new, $end_active]);
+        DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$user_id,$customers->id,$day->points ]);
         DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
         }
         return response()->json($customers->id);
