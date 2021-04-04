@@ -588,4 +588,19 @@ class CustomerController extends Controller
         return response()->json(['companies'=>$companies,'products'=>$products]);
         
     }
+
+    public function user_point($moblie)
+    { 
+        $userId = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        if(!empty($userId))
+        {
+            $user_info = DB::table('users')
+            ->join('points', 'points.userId', '=', 'users.id')
+            ->where('users.id', '=', $userId->id )
+            ->sum('points.ponts');
+            return response()->json($user_info);
+        }
+        
+    }
 }
