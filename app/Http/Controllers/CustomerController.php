@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\City;
 use App\Models\Box;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
@@ -605,4 +606,39 @@ class CustomerController extends Controller
         }
         
     }
+    public function orders(Request $request ,$userId)
+    {
+        $now = Carbon::now();
+        $products =$request;
+        $item = [];
+        $companyId= [];
+        foreach($products->data as $product)
+        {
+            $companyId[]= DB::table('product')
+            ->where('product.id', '=',$product['productId'] )
+            ->select('product.companyId')->first();
+        }
+        foreach($companyId as $company)
+        {
+            if($company->companyId != $companyId[0]->companyId )
+              return response()->json("diffrent commpany");
+        }
+        $order_id= DB::table('order')->insertGetId(array('userId' => $userId,'companyId' => $companyId[0]->companyId,'created_at'=>$now,'updated_at'=>$now),);    
+        foreach($products->data as $product)
+        {
+            if(!empty($product))
+            {
+                $item[] = [ 
+                    'orderId'   => $order_id,
+                    'productId' => $product['productId'],
+                    'quantity'   => $product['quantity'],
+                ];
+            }
+       
+        }
+            DB::table('order_details')->insert($item);
+            return response()->json("ok");
+        
+    }
+    
 }
