@@ -610,6 +610,7 @@ class CustomerController extends Controller
     {
         $now = Carbon::now();
         $products =$request;
+        $total=0;
         $item = [];
         $companyId= [];
         foreach($products->data as $product)
@@ -628,14 +629,20 @@ class CustomerController extends Controller
         {
             if(!empty($product))
             {
+                $price = DB::table('product')->where('product.id', '=', $product['productId'] )->select('discount_price')->first();
                 $item[] = [ 
                     'orderId'   => $order_id,
                     'productId' => $product['productId'],
-                    'quantity'   => $product['quantity'],
+                    'quantity'  => $product['quantity'],
+                    'price'     => $price->discount_price,
+                    'created_at'=>$now,
+                    'updated_at'=>$now
                 ];
+                $total = $total+($product['quantity']*$price->discount_price );
             }
        
         }
+        DB::table('order')->where('id',$order_id)->update(['order_total' => $total]);
             DB::table('order_details')->insert($item);
             return response()->json("ok");
         
