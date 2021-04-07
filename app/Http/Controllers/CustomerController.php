@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\City;
 use App\Models\Box;
 use Carbon\Carbon;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
@@ -643,9 +644,21 @@ class CustomerController extends Controller
        
         }
         DB::table('order')->where('id',$order_id)->update(['order_total' => $total]);
-            DB::table('order_details')->insert($item);
+        DB::table('order_details')->insert($item);
             return response()->json("ok");
         
+    }
+    public function getorders(Request $request ,$userId ,$lang)
+    {
+
+        $product = DB::table('order')->where('userId',$userId)
+        ->join('order_details', 'order_details.orderId', '=', 'order.id')
+        ->join('product', 'product.id', '=', 'order_details.productId')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
+        ->where('product_translation.lang', '=', $lang )
+        ->select('*')
+        ->get();
+        return response()->json($product);
     }
     
 }
