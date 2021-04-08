@@ -6514,4 +6514,3 @@ Did you mean one of these?
 #30 C:\\xampp\\htdocs\\savingappApi\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #31 {main}
 "} 
-[2021-04-08 10:34:38] local.ERROR: No Database connection yet in VoyagerServiceProvider loadAuth()  
