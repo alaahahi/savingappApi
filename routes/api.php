@@ -45,6 +45,7 @@ Route::get('home/{lang?}', [CustomerController::class, 'home']);
 Route::get('user_point/{moblie?}', [CustomerController::class, 'user_point']);
 Route::post('orders/{userId?}', [CustomerController::class, 'orders']);
 Route::get('getorders/{userId?}/{lang?}', [CustomerController::class, 'getorders']);
+Route::get('getusercompany/{moblie?}', [CustomerController::class, 'getusercompany']);
 
 
 

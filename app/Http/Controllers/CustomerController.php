@@ -662,6 +662,8 @@ class CustomerController extends Controller
         ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
         if(!empty($userIds))
         {
+        $order = Order_details::find(14)->order;
+        $order_details = Order::find(112)->order_details;
         $product = DB::table('order')->where('userId',$userIds->id)
         ->join('order_details', 'order_details.orderId', '=', 'order.id')
         ->join('product', 'product.id', '=', 'order_details.productId')
@@ -674,5 +676,22 @@ class CustomerController extends Controller
         else
         return response()->json("user not found");
     }
+    public function getusercompany(Request $request ,$moblie )
+    {
+        $userId = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        if(!empty($userId))
+        {
+        $user_company_info = DB::table('company')
+        ->join('user_company', 'user_company.comapnyId', '=', 'company.id')
+        ->join('users', 'users.id', '=', 'user_company.userId')
+        ->where('users.id', '=', $userId->id )
+        ->select('*')
+        ->get();
+        return response()->json($user_company_info);
+        }
+        else
+        return response()->json("user not found");
     
+    }
 }
