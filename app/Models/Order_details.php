@@ -15,5 +15,10 @@ class Order_details extends Model
     {
         return $this->belongsTo(Order::class);
     }
+    public function product()
+    {
+        return $this->hasMany(Product::class,'id');
+    }
+    
 
 }

@@ -8,6 +8,7 @@ use App\Models\Box;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Order_details;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
@@ -662,16 +663,13 @@ class CustomerController extends Controller
         ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
         if(!empty($userIds))
         {
-        $order = Order_details::find(14)->order;
-        $order_details = Order::find(112)->order_details;
-        $product = DB::table('order')->where('userId',$userIds->id)
-        ->join('order_details', 'order_details.orderId', '=', 'order.id')
-        ->join('product', 'product.id', '=', 'order_details.productId')
-        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
-        ->where('product_translation.lang', '=', $lang )
-        ->select('*')
-        ->get();
-        return response()->json($product);
+        $orders = Order::Where('userId', $userIds->id)->get();
+        foreach ($orders as $order ){
+        foreach ( $order->order_details as $order_details )
+        foreach ( $order_details->product as $products)
+        $products->setAttribute('title_translation',($products->product_translation($lang)->first()->title));
+        }
+        return response()->json($orders);
         }
         else
         return response()->json("user not found");

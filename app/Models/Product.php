@@ -9,4 +9,8 @@ class Product extends Model
 {
     protected $table = 'product';
     use HasFactory;
+    public function product_translation($lang)
+    {
+        return $this->hasMany(Product_translation::class,'productId')->where('lang','=',$lang)->select('title');
+    }
 }
