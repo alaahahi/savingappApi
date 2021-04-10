@@ -13,7 +13,7 @@ class Order extends Model
     use HasFactory;
     public function order_details()
     {
-        return $this->hasMany(Order_details::class);
+        return $this->hasMany(Order_details::class,'orderId');
     }
 
 }

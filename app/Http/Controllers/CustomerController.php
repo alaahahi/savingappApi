@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Box;
 use Carbon\Carbon;
 use App\Models\Order;
+use App\Models\Order_details;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
@@ -607,8 +608,12 @@ class CustomerController extends Controller
         }
         
     }
-    public function orders(Request $request ,$userId)
+    public function orders(Request $request ,$moblie)
     {
+        $userIds = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        if(!empty($userIds))
+        {
         $now = Carbon::now();
         $products =$request;
         $total=0;
@@ -625,7 +630,7 @@ class CustomerController extends Controller
             if($company->companyId != $companyId[0]->companyId )
               return response()->json("diffrent commpany");
         }
-        $order_id= DB::table('order')->insertGetId(array('userId' => $userId,'companyId' => $companyId[0]->companyId,'created_at'=>$now,'updated_at'=>$now),);    
+        $order_id= DB::table('order')->insertGetId(array('userId' => $userIds->id,'companyId' => $companyId[0]->companyId,'created_at'=>$now,'updated_at'=>$now),);    
         foreach($products->data as $product)
         {
             if(!empty($product))
@@ -646,12 +651,18 @@ class CustomerController extends Controller
         DB::table('order')->where('id',$order_id)->update(['order_total' => $total]);
         DB::table('order_details')->insert($item);
             return response()->json("ok");
+    }
+    else
+    return response()->json("user not found");
         
     }
-    public function getorders(Request $request ,$userId ,$lang)
+    public function getorders(Request $request ,$moblie ,$lang)
     {
-
-        $product = DB::table('order')->where('userId',$userId)
+        $userIds = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        if(!empty($userIds))
+        {
+        $product = DB::table('order')->where('userId',$userIds->id)
         ->join('order_details', 'order_details.orderId', '=', 'order.id')
         ->join('product', 'product.id', '=', 'order_details.productId')
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
@@ -659,6 +670,9 @@ class CustomerController extends Controller
         ->select('*')
         ->get();
         return response()->json($product);
+        }
+        else
+        return response()->json("user not found");
     }
     
 }

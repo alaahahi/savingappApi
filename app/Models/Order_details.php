@@ -11,5 +11,9 @@ class Order_details extends Model
 {
     protected $table = 'order_details';
     use HasFactory,SoftDeletes;
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 
 }
