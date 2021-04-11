@@ -695,7 +695,7 @@ class CustomerController extends Controller
         return response()->json("user not found");
     
     }
-    public function editorders(Request $request ,$moblie)
+    public function productcompany(Request $request ,$moblie)
     {
         $product =$request;
         $userId = DB::table('users')
@@ -709,6 +709,8 @@ class CustomerController extends Controller
             ->select('comapnyId')
             ->first();
             $item= [
+                'lang'                  =>$product['lang'],
+                'title'                 => $product['title'],
                 'photo'                 =>$product['photo'],
                 'price'                 => $product['price'],
                 'discount_price'        => $product['discount_price'],
@@ -716,7 +718,7 @@ class CustomerController extends Controller
                 'discount_end_data'     => $product['discount_end_data'],
                 'visible'               => $product['visible'],
                 'companyId'             => $user_company_info->comapnyId,
-                'title'                 => $product['title'],
+              
             ];
             if(!$product['id']){
             DB::insert('insert into product (`photo`,`price`,`discount_price`,`discount_start_data`,`discount_end_data`,`visible`,`companyId`,`title`) values (?,?,?,?,?,?,?,?)',
