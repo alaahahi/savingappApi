@@ -572,6 +572,7 @@ class CustomerController extends Controller
         ->join('product', 'product.companyId', '=', 'company.id')
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('company.id', '=', $companyId )
+        ->where('product.visible', '=', '1' )
         ->where('product_translation.lang', '=', $lang )
         ->select('*')
         ->get();
@@ -698,7 +699,7 @@ class CustomerController extends Controller
     {
         $product =$request;
         $userId = DB::table('users')
-        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userId))
         {
             $user_company_info = DB::table('company')
@@ -707,20 +708,30 @@ class CustomerController extends Controller
             ->where('users.id', '=', $userId->id )
             ->select('comapnyId')
             ->first();
-            $item= [ 
-                'photo'             =>$product['photo'],
-                'price'             => $product['price'],
-                'discount_price'    => $product['discount_price'],
-                'discount_end_data' => $product['discount_end_data'],
-                'visible'           => $product['visible'],
-                'companyId'         => $user_company_info->comapnyId,
+            $item= [
+                'photo'                 =>$product['photo'],
+                'price'                 => $product['price'],
+                'discount_price'        => $product['discount_price'],
+                'discount_start_data'   => $product['discount_start_data'],
+                'discount_end_data'     => $product['discount_end_data'],
+                'visible'               => $product['visible'],
+                'companyId'             => $user_company_info->comapnyId,
+                'title'                 => $product['title'],
             ];
             if(!$product['id']){
-    
-            DB::insert('insert into product ("photo", "price","discount_price","visible") values (?,?,?,?)',[$product['photo'],$product['price'],['discount_price'],$product['visible']]);
-            }else
-            DB::table('product')->where('id',$product['id'])->update($item);
-            return response()->json($p );
+            DB::insert('insert into product (`photo`,`price`,`discount_price`,`discount_start_data`,`discount_end_data`,`visible`,`companyId`,`title`) values (?,?,?,?,?,?,?,?)',
+            [$product->photo,$product->price ,$product->discount_price,$product->discount_start_data,$product->discount_end_data,$product->visible,$user_company_info->comapnyId,$product->title]);
+            return response()->json("Added" );
+            }else{
+            $productId = DB::table('product')
+            ->where('product.id', '=',$product['id'])->select('id')->first();
+            if($productId->id){
+            DB::table('product')->where('id',$productId->id)->update($item);
+            return response()->json("Updated" );
+            }
+            else 
+            return response()->json("Product Id not valid" );
+            }
             
     }
     }
