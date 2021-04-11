@@ -709,9 +709,10 @@ class CustomerController extends Controller
             ->select('comapnyId')
             ->first();
             $item= [
-                'lang'                  =>$product['lang'],
+                'lang'                  => $product['lang'],
+                'desc'                  => $product['desc'],
                 'title'                 => $product['title'],
-                'photo'                 =>$product['photo'],
+                'photo'                 => $product['photo'],
                 'price'                 => $product['price'],
                 'discount_price'        => $product['discount_price'],
                 'discount_start_data'   => $product['discount_start_data'],
@@ -721,10 +722,25 @@ class CustomerController extends Controller
               
             ];
             if(!$product['id']){
-            DB::insert('insert into product (`photo`,`price`,`discount_price`,`discount_start_data`,`discount_end_data`,`visible`,`companyId`,`title`) values (?,?,?,?,?,?,?,?)',
-            [$product->photo,$product->price ,$product->discount_price,$product->discount_start_data,$product->discount_end_data,$product->visible,$user_company_info->comapnyId,$product->title]);
+            $product_id= DB::table('product')->insertGetId(array('photo' => $product->photo,'price' => $product->price,'discount_price'=>$product->discount_price,'discount_start_data'=>$product->discount_start_data
+            ,'discount_end_data'=>$product->discount_end_data,'visible'=>$product->visible,'companyId'=>$user_company_info->comapnyId,'title'=>$product->title)); 
+            foreach($product->data as $product_tr)
+            {
+                if(!empty($product_tr))
+                {
+                    $product_trs[] = [ 
+                        'title' => $product_tr['title'],
+                        'desc' => $product_tr['desc'],
+                        'lang' => $product_tr['lang'],
+                        'productId'=> $product_id
+                    ];
+                }
+           
+            }
+            DB::table('product_translation')->insert($product_trs);  
             return response()->json("Added" );
-            }else{
+            }
+            else{
             $productId = DB::table('product')
             ->where('product.id', '=',$product['id'])->select('id')->first();
             if($productId->id){
