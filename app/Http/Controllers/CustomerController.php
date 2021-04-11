@@ -544,6 +544,7 @@ class CustomerController extends Controller
         $category = 
         DB::table('category')
         ->join('category_translation', 'category_translation.categoryId', '=', 'category.id')
+        ->where('category.visible', '=', '1' )
         ->where('category_translation.lang', '=', $lang )
         ->select('*')
         ->get();
@@ -556,6 +557,7 @@ class CustomerController extends Controller
         DB::table('category')
         ->join('company', 'company.categoryId', '=', 'category.id')
         ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('company.visible', '=', '1' )
         ->where('category.id', '=', $categoryId )
         ->where('company_translation.lang', '=', $lang )
         ->select('*')
@@ -691,5 +693,35 @@ class CustomerController extends Controller
         else
         return response()->json("user not found");
     
+    }
+    public function editorders(Request $request ,$moblie)
+    {
+        $product =$request;
+        $userId = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        if(!empty($userId))
+        {
+            $user_company_info = DB::table('company')
+            ->join('user_company', 'user_company.comapnyId', '=', 'company.id')
+            ->join('users', 'users.id', '=', 'user_company.userId')
+            ->where('users.id', '=', $userId->id )
+            ->select('comapnyId')
+            ->first();
+            $item= [ 
+                'photo'             =>$product['photo'],
+                'price'             => $product['price'],
+                'discount_price'    => $product['discount_price'],
+                'discount_end_data' => $product['discount_end_data'],
+                'visible'           => $product['visible'],
+                'companyId'         => $user_company_info->comapnyId,
+            ];
+            if(!$product['id']){
+    
+            DB::insert('insert into product ("photo", "price","discount_price","visible") values (?,?,?,?)',[$product['photo'],$product['price'],['discount_price'],$product['visible']]);
+            }else
+            DB::table('product')->where('id',$product['id'])->update($item);
+            return response()->json($p );
+            
+    }
     }
 }

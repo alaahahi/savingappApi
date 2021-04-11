@@ -635,7 +635,7 @@ class ComposerStaticInitb6df61b06c456a1469d928e3be6ca0d4
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
-        'App\\Models\\Category_translation' => __DIR__ . '/../..' . '/app/Models/Category_translation - Copy.php',
+
         'App\\Models\\Company' => __DIR__ . '/../..' . '/app/Models/Company.php',
         'App\\Models\\Company_translation' => __DIR__ . '/../..' . '/app/Models/Company_translation.php',
         'App\\Models\\Product' => __DIR__ . '/../..' . '/app/Models/Product.php',

@@ -43,9 +43,10 @@ Route::get('categories/{categoryId?}/companies/{lang?}', [CustomerController::cl
 Route::get('companies/{companyId?}/products/{lang?}', [CustomerController::class, 'companies_products']);
 Route::get('home/{lang?}', [CustomerController::class, 'home']);
 Route::get('user_point/{moblie?}', [CustomerController::class, 'user_point']);
-Route::post('orders/{userId?}', [CustomerController::class, 'orders']);
-Route::get('getorders/{userId?}/{lang?}', [CustomerController::class, 'getorders']);
+Route::post('orders/{moblie?}', [CustomerController::class, 'orders']);
+Route::get('getorders/{moblie?}/{lang?}', [CustomerController::class, 'getorders']);
 Route::get('getusercompany/{moblie?}', [CustomerController::class, 'getusercompany']);
+Route::post('editorders/{moblie?}', [CustomerController::class, 'editorders']);
 
 
 

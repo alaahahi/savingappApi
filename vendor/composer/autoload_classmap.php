@@ -19,7 +19,6 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Models\\Category' => $baseDir . '/app/Models/Category.php',
-    'App\\Models\\Category_translation' => $baseDir . '/app/Models/Category_translation - Copy.php',
     'App\\Models\\Company' => $baseDir . '/app/Models/Company.php',
     'App\\Models\\Company_translation' => $baseDir . '/app/Models/Company_translation.php',
     'App\\Models\\Product' => $baseDir . '/app/Models/Product.php',
