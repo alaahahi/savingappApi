@@ -14,4 +14,9 @@ class Product extends Model
     {
         return $this->hasMany(Product_translation::class,'productId')->where('lang','=',$lang)->select('title');
     }
+    
+    public function order_details()
+    {
+        return $this->hasMany(Order_details::class,'productId');
+    }
 }

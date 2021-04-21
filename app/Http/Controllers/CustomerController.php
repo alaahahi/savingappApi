@@ -668,8 +668,7 @@ class CustomerController extends Controller
         {
         $orders = Order::Where('userId', $userIds->id)->get();
         foreach ($orders as $order ){
-        foreach ( $order->order_details as $order_details )
-        foreach ( $order_details->product as $products)
+        foreach ( $order->product as $products )
         $products->setAttribute('title_translation',($products->product_translation($lang)->first()->title));
         }
         return response()->json($orders);
