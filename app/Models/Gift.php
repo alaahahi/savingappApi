@@ -12,7 +12,7 @@ class Gift extends Model
 
     public function gift_translation($lang)
     {
-        return $this->hasMany(Product_translation::class,'productId')->where('lang','=',$lang)->get();
+        return $this->hasMany(Gift_translation::class,'giftId')->where('lang','=',$lang)->get();
     }
     
 }

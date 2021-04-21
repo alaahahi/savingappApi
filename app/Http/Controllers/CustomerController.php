@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\City;
 use App\Models\Box;
+use App\Models\Gift;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Order_details;
@@ -751,5 +752,13 @@ class CustomerController extends Controller
             }
             
     }
+    }
+    public function gift(Request $request ,$lang)
+    { 
+        $gift=Gift::all();
+        foreach ($gift as $gifts)
+        $gifts->setAttribute('gift_translation',($gifts->gift_translation($lang)->first()));
+        return response()->json($gift);
+        
     }
 }

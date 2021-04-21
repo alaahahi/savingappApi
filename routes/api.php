@@ -29,14 +29,14 @@ Orion::resource('card', CardController::class);
 Orion::resource('cardType', CardTypeController::class);
 Orion::morphToManyResource('posts', 'comments', UsersController::class);
 
-Route::get('check_card/{moblie?}', [CustomerController::class, 'check_card'])->name('customer.check_card');
-Route::get('charge_card/{cardNumber?}/{moblie?}', [CustomerController::class, 'charge_card'])->name('customer.charge_card');
-Route::get('getallcart/{moblie?}/{lang?}', [CustomerController::class, 'getallcart'])->name('customer.getallcart');
-Route::post('addtocart/{moblie?}', [CustomerController::class, 'addtocart'])->name('customer.addtocart');
-Route::delete('removfromcart/{moblie?}/{id?}', [CustomerController::class, 'removfromcart'])->name('customer.removfromcart');
-Route::delete('removallcart/{moblie?}', [CustomerController::class, 'removallcart'])->name('customer.removallcart');
-Route::get('products/{ids?}/{lang?}', [CustomerController::class, 'products'])->name('customer.products');
-Route::get('companies/{ids?}/{lang?}', [CustomerController::class, 'companies'])->name('customer.companies');
+Route::get('check_card/{moblie?}', [CustomerController::class, 'check_card']);
+Route::get('charge_card/{cardNumber?}/{moblie?}', [CustomerController::class, 'charge_card']);
+Route::get('getallcart/{moblie?}/{lang?}', [CustomerController::class, 'getallcart']);
+Route::post('addtocart/{moblie?}', [CustomerController::class, 'addtocart']);
+Route::delete('removfromcart/{moblie?}/{id?}', [CustomerController::class, 'removfromcart']);
+Route::delete('removallcart/{moblie?}', [CustomerController::class, 'removallcart']);
+Route::get('products/{ids?}/{lang?}', [CustomerController::class, 'products']);
+Route::get('companies/{ids?}/{lang?}', [CustomerController::class, 'companies']);
 Route::get('search/{q?}/{lang?}', [CustomerController::class, 'search']);
 Route::get('categories/{lang?}', [CustomerController::class, 'categories']);
 Route::get('categories/{categoryId?}/companies/{lang?}', [CustomerController::class, 'categories_companies']);
@@ -47,6 +47,7 @@ Route::post('orders/{moblie?}', [CustomerController::class, 'orders']);
 Route::get('getorders/{moblie?}/{lang?}', [CustomerController::class, 'getorders']);
 Route::get('getusercompany/{moblie?}', [CustomerController::class, 'getusercompany']);
 Route::post('productcompany/{moblie?}', [CustomerController::class, 'productcompany']);
+Route::get('gift/{lang?}', [CustomerController::class, 'gift']);
 
 
 
