@@ -14,5 +14,9 @@ class Gift extends Model
     {
         return $this->hasMany(Gift_translation::class,'giftId')->where('lang','=',$lang)->get();
     }
+    public function winner()
+    {
+        return $this->belongsToMany(Users::class,'winner');
+    }
     
 }

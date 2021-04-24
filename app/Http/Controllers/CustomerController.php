@@ -798,4 +798,18 @@ class CustomerController extends Controller
         return response()->json($gift);
         
     }
+    public function winner(Request $request ,$lang)
+    { 
+        $gift = DB::table('winner')
+        ->join('users', 'users.id', '=', 'winner.users_id')
+        ->join('gift', 'gift.id', '=', 'winner.gift_id')
+        ->join('gift_type', 'gift_type.id', '=', 'gift.gift_type_id')
+        ->join('gift_translation', 'gift_translation.giftId', '=', 'gift.id')
+        ->select('gift.phont','users.phone','gift_translation.title','gift_translation.desc','winner.created_at as date','gift_type.title as type')
+        ->where('gift_translation.lang', '=', $lang )
+        ->get();
+
+        return response()->json($gift);
+        
+    }
 }

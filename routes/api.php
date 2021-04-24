@@ -48,6 +48,6 @@ Route::get('getorders/{moblie?}/{lang?}', [CustomerController::class, 'getorders
 Route::get('getusercompany/{moblie?}', [CustomerController::class, 'getusercompany']);
 Route::post('productcompany/{moblie?}', [CustomerController::class, 'productcompany']);
 Route::get('gift/{lang?}', [CustomerController::class, 'gift']);
-
+Route::get('winner/{lang?}', [CustomerController::class, 'winner']);
 
 
