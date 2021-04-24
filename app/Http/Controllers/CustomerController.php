@@ -2,7 +2,9 @@
 
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Customer;
+use App\Models\Company;
 use App\Models\City;
 use App\Models\Box;
 use App\Models\Gift;
@@ -154,7 +156,6 @@ class CustomerController extends Controller
                         $btn = '<a href="javascript:void(0)" data-toggle="tooltip"    data-id="'.$data->order_id.'" data-original-title="customers" class=" btn btn-success btn-sm ">Done</a>';
                         else
                         $btn = '<a href="javascript:void(0)" data-toggle="tooltip" id="'.$data->order_id.'" data-id="'.$data->order_id.'" data-original-title="customers" class=" btn btn-danger btn-sm is_service">Service</a>';
-   
                          return $btn;
                     })
                     ->rawColumns(['action'])->filter(
@@ -392,7 +393,43 @@ class CustomerController extends Controller
         DB::update('update `order` set is_service = true,service_date =DATE_ADD(service_date, INTERVAL ? day)  where id =?',[$day->service_day,$id]);
         return response()->json(['success'=>'Item saved successfully.']);
     }
-
+    public function my_company()
+    {
+        $userId =  Auth::user()->id;
+        $data = DB::table('company')
+        ->join('users', 'users.company_id', '=', 'company.id')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('users.id', '=',   $userId )
+        ->where('company_translation.lang', '=', 'en' )
+        ->select('*')
+        ->get();
+        return view('my_company',compact('data'));
+    }
+    public function my_orders()
+    {
+        $lang ='en';
+        $companyId =  Auth::user()->company_id;
+        $data = Order::Where('companyId', $companyId)->get();
+        foreach ($data as $order ){
+        $order->setAttribute('user_phone',($order->users->phone));
+        foreach ( $order->product as $products )
+        $products->setAttribute('title_translation',($products->product_translation($lang)->first()->title));
+        }
+        return view('my_orders',compact('data'));
+    }
+    public function my_products()
+    {
+       
+        $userId =  Auth::user()->id;
+        $data = DB::table('company')
+        ->join('users', 'users.company_id', '=', 'company.id')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('users.id', '=',   $userId )
+        ->where('company_translation.lang', '=', 'en' )
+        ->select('*')
+        ->get();
+        return view('my_products',compact('data'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -684,8 +721,8 @@ class CustomerController extends Controller
         if(!empty($userId))
         {
         $user_company_info = DB::table('company')
-        ->join('user_company', 'user_company.comapnyId', '=', 'company.id')
-        ->join('users', 'users.id', '=', 'user_company.userId')
+        ->join('users', 'users.company_id', '=', 'company.id')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
         ->where('users.id', '=', $userId->id )
         ->select('*')
         ->get();
