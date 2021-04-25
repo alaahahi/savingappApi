@@ -25,3 +25,5 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('admin/my_company', [CustomerController::class, 'my_company']);
 Route::get('admin/my_orders', [CustomerController::class, 'my_orders']);
 Route::get('admin/my_products', [CustomerController::class, 'my_products']);
+Route::get('admin/approval/{id?}', [CustomerController::class, 'approval'])->name('admin.approval');
+Route::get('admin/rejection/{id?}', [CustomerController::class, 'rejection'])->name('admin.rejection'); 

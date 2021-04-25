@@ -26,17 +26,49 @@ Customer Mobile: {{ $customer->user_phone }}
     <p>Accepted : {{ $customer->is_accepted }}</p>
     <div class="card-footer text-center">
           <div class="btn-wrapper  justify-content-between">
-            <a href="javascript:void(0)" data-toggle="tooltip"    data-id="{{$customer->id}}"  class="btn btn-warning">Rejection</a>
-            <a href="javascript:void(0)" data-toggle="tooltip"    data-id="{{$customer->id}}" class="btn btn-success">Approval</a>
+          @if ($customer->is_accepted==0)
+          <a href="javascript:void(0)" data-toggle="tooltip"    data-id="{{$customer->id}}"  class="btn btn-danger rejection">Rejection</a>
+          <a href="javascript:void(0)" data-toggle="tooltip"  id="{{$customer->id}}"  data-id="{{$customer->id}}" class="btn btn-warning approval">Approval</a>
+          @endif
+          @if ($customer->is_accepted==1)
+          <a href="javascript:void(0)" data-toggle="tooltip"     class="btn btn-success ">Compleated</a>
+          @endif
+          @if ($customer->is_accepted==2)
+          <a href="javascript:void(0)" data-toggle="tooltip"     class="btn btn-danger">Rejected</a>
+          @endif
           </div>
     </div>
 </div>
 </div>
 </div>
 @endforeach
-@endsection
+
 </div>
 </div>
 
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $('body').on('click', '.approval', function () {
+      $(this).attr('disabled', true);      
+      var Item_id = $(this).data('id');
+      debugger;
+    
+      $.get("{{ route('admin.approval') }}/"+Item_id ).done(function() {
+        $('#'+Item_id).attr('disabled', false); 
+        $('#'+Item_id).css("background-color", "#2ecc71").text("Done Approval");
+});
+   });
+   $('body').on('click', '.rejection', function () {
+      $(this).attr('disabled', true);      
+      var Item_id = $(this).data('id');
+      debugger;
+    
+      $.get("{{ route('admin.rejection') }}/"+Item_id ).done(function() {
+        $('#'+Item_id).attr('disabled', false); 
+        $('#'+Item_id).css("background-color", "#2ecc71").text("Done Rejection");
+});
+   });
+</script>
+  @endsection

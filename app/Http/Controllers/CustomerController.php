@@ -812,4 +812,18 @@ class CustomerController extends Controller
         return response()->json($gift);
         
     }
+    public function approval(Request $request ,$id)
+    { 
+        DB::table('order')->where('id',$id)->update(['is_accepted' => '1']);
+
+        return response()->json(['success'=>'Item saved successfully.']);
+        
+    }
+    public function rejection(Request $request ,$id)
+    { 
+        DB::table('order')->where('id',$id)->update(['is_accepted' => '2']);
+
+        return response()->json(['success'=>'Item saved successfully.']);
+        
+    }
 }
