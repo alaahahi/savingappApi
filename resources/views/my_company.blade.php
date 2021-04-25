@@ -9,8 +9,8 @@
 </div>
 
 <div class="card" style="width:30%;border-radius:15px">
-  <img src="<?php echo url('/') ?>/{{ $customer->photo }}" alt="Avatar" style="width:100%" >
-  <img src="<?php echo url('/') ?>/{{ $customer->logo }}" alt="Avatar" style="width:15%;position: relative;
+  <img src="http://savingapp.co/AdminCp/storage/app/public/{{ $customer->photo }}" alt="Avatar" style="width:100%" >
+  <img src="http://savingapp.co/AdminCp/storage/app/public/{{ $customer->logo }}" alt="Avatar" style="width:15%;position: relative;
     bottom: 60px;
     left: 10px;" >
   <div class="container">
