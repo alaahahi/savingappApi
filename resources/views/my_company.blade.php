@@ -2,13 +2,14 @@
 
 
 @section('content')
-@foreach ($data as $customer)
-<h1></h1>
+
+<h1>My Company</h1>
+<div class="container">
 <div class="container">
 <div class="row">
-</div>
-
-<div class="card" style="width:30%;border-radius:15px">
+@foreach ($data as $customer)
+<div class="col-md-4">
+<div class="card" style="border-radius:15px">
   <img src="http://savingapp.co/AdminCp/storage/app/public/{{ $customer->photo }}" alt="Avatar" style="width:100%" >
   <img src="http://savingapp.co/AdminCp/storage/app/public/{{ $customer->logo }}" alt="Avatar" style="width:15%;position: relative;
     bottom: 60px;
@@ -19,8 +20,16 @@
     <p>Open Time: {{ $customer->open_minute  / 60 }}</p>
     <p>Close Time: {{ (int)($customer->close_minute / 60)}}</p>
   </div>
+  <div class="card-footer text-center">
+          <div class="btn-wrapper  justify-content-between">
+          <a href="https://www.savingapp.co/AdminCp/public/admin/company/{{$customer->company_id}}/edit" data-toggle="tooltip"  id="{{$customer->id}}"  data-id="{{$customer->id}}" class="btn btn-warning approval">Edit</a>
+          </div>
+    </div>
+</div> 
+</div>
+@endforeach
+</div>
 </div>
     
 </div>
-@endforeach
 @endsection

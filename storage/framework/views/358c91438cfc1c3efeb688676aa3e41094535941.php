@@ -9,9 +9,9 @@
             <?php echo e(csrf_field()); ?>
 
             <div class="form-group form-group-default" id="emailGroup">
-                <label><?php echo e(__('voyager::generic.email')); ?></label>
+                <label>Mobile</label>
                 <div class="controls">
-                    <input type="text" name="email" id="email" value="<?php echo e(old('email')); ?>" placeholder="<?php echo e(__('voyager::generic.email')); ?>" class="form-control" required>
+                <input type="text" name="phone" value="<?php echo e(old('phone')); ?>"  class="form-control" required>
                 </div>
             </div>
 

@@ -403,6 +403,7 @@ class CustomerController extends Controller
         ->where('company_translation.lang', '=', 'en' )
         ->select('*')
         ->get();
+      
         return view('my_company',compact('data'));
     }
     public function my_orders()
@@ -476,30 +477,42 @@ class CustomerController extends Controller
         ->select('card.id')->first();
         if(!empty($customers))
         {
-         $day = DB::table('card')
-        ->join('card_type', 'card_type.id', '=', 'card.card_type_id')
-        ->where('card.id', '=', $customers->id)
-        ->select('card_type.validation','card_type.points')->first();
-        $day_str = "+$day->validation days";
-        $card = DB::table('card_user')
-        ->join('users', 'users.id', '=', 'card_user.user_id')
-        ->join('card', 'card.id', '=', 'card_user.card_id')
-        ->where('users.phone', '=', $moblie )->select('users.id as usersId','card_user.id','card_user.end_active')->first();
-        if(!empty($card)){
-        $end_active =date('Y-m-d',strtotime($day_str,strtotime($card->end_active)));
-        DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$card->usersId, $card->id,$day->points ]);
-        DB::table('card_user')->where('id', $card->id)->update(['end_active' => $end_active]);
-        DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
-        return   response()->json( $end_active);
-        }
-        else{
-        $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
-        $user_id= DB::table('users')->insertGetId(array('phone' => $moblie));
-        DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$user_id,$new, $end_active]);
-        DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$user_id,$customers->id,$day->points ]);
-        DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
-        }
-        return response()->json($customers->id);
+            $day = DB::table('card')
+            ->join('card_type', 'card_type.id', '=', 'card.card_type_id')
+            ->where('card.id', '=', $customers->id)
+            ->select('card_type.validation','card_type.points')->first();
+            $day_str = "+$day->validation days";
+            $userIds = DB::table('users')
+            ->where('users.phone', '=', $moblie )->select('id')->first();
+            $card = DB::table('card_user')
+            ->join('users', 'users.id', '=', 'card_user.user_id')
+            ->join('card', 'card.id', '=', 'card_user.card_id')
+            ->where('users.phone', '=', $moblie )->select('users.id as usersId','card_user.id','card_user.end_active')->first();
+            if(!empty($card))
+                {
+                $end_active =date('Y-m-d',strtotime($day_str,strtotime($card->end_active)));
+                DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$card->usersId, $card->id,$day->points ]);
+                DB::table('card_user')->where('id', $card->id)->update(['end_active' => $end_active]);
+                DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
+                return   response()->json( $end_active);
+                }
+            if(!empty($userIds))
+                {
+                    $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
+                    DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$userIds->id,$new, $end_active]);
+                    DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$userIds->id,$customers->id,$day->points ]);
+                    DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
+                    return   response()->json($end_active);
+                }
+            if(empty($userIds))
+            {
+            $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
+            $user_id= DB::table('users')->insertGetId(array('phone' => $moblie));
+            DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$user_id,$new, $end_active]);
+            DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$user_id,$customers->id,$day->points ]);
+            DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
+            return   response()->json( $end_active);
+            }
         }
         else 
         return response()->json('This Card is not Valid');
@@ -639,7 +652,7 @@ class CustomerController extends Controller
     public function user_point($moblie)
     { 
         $userId = DB::table('users')
-        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userId))
         {
             $user_info = DB::table('users')
@@ -653,7 +666,7 @@ class CustomerController extends Controller
     public function orders(Request $request ,$moblie)
     {
         $userIds = DB::table('users')
-        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userIds))
         {
         $now = Carbon::now();
@@ -701,7 +714,7 @@ class CustomerController extends Controller
     public function getorders(Request $request ,$moblie ,$lang)
     {
         $userIds = DB::table('users')
-        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userIds))
         {
         $orders = Order::Where('userId', $userIds->id)->get();
@@ -717,7 +730,7 @@ class CustomerController extends Controller
     public function getusercompany(Request $request ,$moblie )
     {
         $userId = DB::table('users')
-        ->where('users.phone', '=', $moblie )->select('users.id')->select('id')->first();
+        ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userId))
         {
         $user_company_info = DB::table('company')
