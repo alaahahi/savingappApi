@@ -38,7 +38,7 @@
                         <img src="assets/images/logo-170x161.png" alt="savingapp" style="height: 4.3rem;">
                     </a>
                 </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-secondary display-7" href="https://mobiri.se">Saving App</a></span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-secondary display-7" href="#">Saving App</a></span>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <div class="hamburger">
@@ -77,7 +77,7 @@
                         <strong>Saving App</strong></h1>
                     <p class="mbr-text mbr-fonts-style display-7">
                         Every day is like Black Friday</p>
-                    <div class="mbr-section-btn mt-3"><a class="btn btn-secondary display-7" href="https://mobiri.se">Get Started</a></div>
+                    <div class="mbr-section-btn mt-3"><a class="btn btn-secondary display-7" href="#">Get Started</a></div>
                 </div>
             </div>
         </div>
@@ -104,7 +104,7 @@
                                 <li>Edit visually</li>
                             </ul>
                         </div>
-                        <div class="mbr-section-btn mb-4"><a class="btn btn-black display-4" href="https://mobiri.se">View all our features</a></div>
+                        <div class="mbr-section-btn mb-4"><a class="btn btn-black display-4" href="#">View all our features</a></div>
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                             <strong>Android</strong></h5>
                         <p class="mbr-text mbr-fonts-style mb-3 display-4">
                             You don't have to code when you create your own site. Select one of available themes in the Mobirise sitebuilder.</p>
-                        <div class="mbr-section-btn"><a href="https://mobiri.se" class="btn btn-black display-4">Download</a></div>
+                        <div class="mbr-section-btn"><a href="https://play.google.com/store/apps/details?id=com.savingapp.co" class="btn btn-black display-4">Download</a></div>
                     </div>
                     <div class="img-wrapper img1 align-center">
                         <span class="mbr-iconfont socicon-android socicon"></span>
@@ -148,7 +148,7 @@
                             <strong>IOS</strong></h5>
                         <p class="mbr-text mbr-fonts-style mb-3 display-4">
                             Select the theme that suits you. Each theme in the Mobirise website building software contains a set of unique blocks.</p>
-                        <div class="mbr-section-btn"><a href="https://mobiri.se" class="btn btn-black display-4">Download</a></div>
+                        <div class="mbr-section-btn"><a href="#" class="btn btn-black display-4">Download</a></div>
                     </div>
                     <div class="img-wrapper img2 align-center">
                         <span class="mbr-iconfont socicon-apple socicon"></span>
@@ -427,7 +427,7 @@
                 </div>
             </div>
             <div class="map-wrapper col-12 col-md-6">
-                <div class="google-map"><iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDk89J4FSunMF33ruMVWJaJht_Ro0kvoXs&amp;q=350 5th Ave, New York, NY 10118" allowfullscreen=""></iframe></div>
+                <div class="google-map"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d804.8191174087776!2d44.02637163233273!3d36.20847451731242!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2siq!4v1619532419942!5m2!1sar!2siq" style="border:0;" allowfullscreen="" loading="lazy"></iframe></iframe></div>
             </div>
         </div>
     </div>
@@ -494,13 +494,13 @@
                 </h3>
                 <div class="social-list align-center">
                    
-                    <a class="iconfont-wrapper bg-facebook m-2 " target="_blank" href="https://mobiri.se">
+                    <a class="iconfont-wrapper bg-facebook m-2 " target="_blank" href="#">
                             <span class="socicon-facebook socicon"></span>
                         </a>
-                        <a class="iconfont-wrapper bg-twitter m-2" href="https://mobiri.se" target="_blank">
+                        <a class="iconfont-wrapper bg-twitter m-2" href="#" target="_blank">
                             <span class="socicon-twitter socicon"></span>
                         </a>
-                        <a class="iconfont-wrapper bg-instagram m-2" href="https://mobiri.se" target="_blank">
+                        <a class="iconfont-wrapper bg-instagram m-2" href="#" target="_blank">
                             <span class="socicon-instagram socicon"></span>
                         </a>
                         

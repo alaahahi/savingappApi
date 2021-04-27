@@ -747,17 +747,12 @@ class CustomerController extends Controller
     }
     public function productcompany(Request $request ,$moblie)
     {
+  
         $product =$request;
-        $userId = DB::table('users')
-        ->where('users.phone', '=', $moblie )->select('id')->first();
-        if(!empty($userId))
+        $company_id = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('company_id')->first();
+        if(!empty($company_id))
         {
-            $user_company_info = DB::table('company')
-            ->join('user_company', 'user_company.comapnyId', '=', 'company.id')
-            ->join('users', 'users.id', '=', 'user_company.userId')
-            ->where('users.id', '=', $userId->id )
-            ->select('comapnyId')
-            ->first();
             $item= [
                 'lang'                  => $product['lang'],
                 'desc'                  => $product['desc'],
@@ -768,12 +763,12 @@ class CustomerController extends Controller
                 'discount_start_data'   => $product['discount_start_data'],
                 'discount_end_data'     => $product['discount_end_data'],
                 'visible'               => $product['visible'],
-                'companyId'             => $user_company_info->comapnyId,
+                'companyId'             => $company_id->company_id,
               
             ];
             if(!$product['id']){
             $product_id= DB::table('product')->insertGetId(array('photo' => $product->photo,'price' => $product->price,'discount_price'=>$product->discount_price,'discount_start_data'=>$product->discount_start_data
-            ,'discount_end_data'=>$product->discount_end_data,'visible'=>$product->visible,'companyId'=>$user_company_info->comapnyId,'title'=>$product->title)); 
+            ,'discount_end_data'=>$product->discount_end_data,'visible'=>$product->visible,'companyId'=>$company_id->company_id,'title'=>$product->title)); 
             foreach($product->data as $product_tr)
             {
                 if(!empty($product_tr))
@@ -788,7 +783,7 @@ class CustomerController extends Controller
            
             }
             DB::table('product_translation')->insert($product_trs);  
-            return response()->json("Added" );
+            return response()->json('Added');
             }
             else{
             $productId = DB::table('product')
