@@ -667,7 +667,7 @@ class CustomerController extends Controller
     {
         $userIds = DB::table('users')
         ->join('card_user', 'card_user.user_id', '=', 'users.id')
-        ->where('users.phone', '=', $moblie )->select('id')->first();
+        ->where('users.phone', '=', $moblie )->select('users.id')->first();
         if(!empty($userIds))
         {
         $now = Carbon::now();
