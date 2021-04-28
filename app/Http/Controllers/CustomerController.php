@@ -666,6 +666,7 @@ class CustomerController extends Controller
     public function orders(Request $request ,$moblie)
     {
         $userIds = DB::table('users')
+        ->join('card_user', 'card_user.user_id', '=', 'users.id')
         ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userIds))
         {
@@ -708,7 +709,7 @@ class CustomerController extends Controller
             return response()->json("ok");
     }
     else
-    return response()->json("user not found");
+    return response()->json("Account is Not Valid,Please Activated");
         
     }
     public function getorders(Request $request ,$moblie ,$lang)
