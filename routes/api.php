@@ -28,7 +28,7 @@ Orion::resource('category', CategoryController::class);
 Orion::resource('card', CardController::class);
 Orion::resource('cardType', CardTypeController::class);
 Orion::morphToManyResource('posts', 'comments', UsersController::class);
-//mobile
+
 Route::get('check_card/{moblie?}', [CustomerController::class, 'check_card']);
 Route::get('charge_card/{cardNumber?}/{moblie?}', [CustomerController::class, 'charge_card']);
 Route::get('getallcart/{moblie?}/{lang?}', [CustomerController::class, 'getallcart']);

@@ -11,17 +11,6 @@
       'AsyncWidget' => 'Arrilot\\Widgets\\AsyncFacade',
     ),
   ),
-  'barryvdh/laravel-dompdf' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'PDF' => 'Barryvdh\\DomPDF\\Facade',
-    ),
-  ),
   'facade/ignition' => 
   array (
     'providers' => 
@@ -124,17 +113,6 @@
     array (
       0 => 'TCG\\Voyager\\VoyagerServiceProvider',
       1 => 'TCG\\Voyager\\Providers\\VoyagerDummyServiceProvider',
-    ),
-  ),
-  'yajra/laravel-datatables-oracle' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
     ),
   ),
 );
