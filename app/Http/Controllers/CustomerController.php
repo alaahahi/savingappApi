@@ -9,9 +9,9 @@ use App\Models\City;
 use App\Models\Box;
 use App\Models\Gift;
 use Carbon\Carbon;
+use App\Models\Product;
 use App\Models\Order;
 use App\Models\Order_details;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
@@ -418,17 +418,83 @@ class CustomerController extends Controller
         }
         return view('my_orders',compact('data'));
     }
-    public function my_products()
+    public function edit_products(Request $request,$id)
     {
-       
+        $item= [ 
+         'title'=> $request->title,
+         'visible'=> $request->visible,
+         'price'=> $request->price,
+         'discount_price'=> $request->discount_price,
+         //'photo'=> $request->image,
+        ];
+
+        $product_trs_en = [ 
+            'title' => $request->translation_title_en,
+            'desc' => $request->translation_desc_en,
+            'lang'=> 'en',
+            'productId'=>$id
+        ];
+        $product_trs_ar = [ 
+            'title' => $request->translation_title_ar,
+            'desc' => $request->translation_desc_ar,
+            'lang' => 'ar',
+            'productId'=>$id
+        ];
+        $product_trs_ku = [ 
+            'title' => $request->translation_title_ku,
+            'desc' => $request->translation_desc_ku,
+            'lang' => 'ku',
+            'productId'=>$id
+        ];
+        DB::table('product')->where('id',$id)->update($item);
+        DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','en')->update($product_trs_en);
+        DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','ar')->update($product_trs_ar);
+        DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','ku')->update($product_trs_ku);
+        return response()->json(['success'=>'Item saved successfully.']);
+        return redirect('path')->with(['message' => "Product Update data Successfully", 'alert-type' => 'success']);
+    }
+    public function remove_products(Request $request,$id)
+    {
+        DB::table('product_translation')->where('product_translation.productId',$id)->delete();
+        DB::table('product')->where('id',$id)->delete();
+        return redirect('path')->with(['message' => "Product deleted Successfully", 'alert-type' => 'error']);
+    }
+    public function edit_product(Request $request,$id)
+    {
+        //if ($request->ajax()) 
+        //{ 
+        $data =Product::where('id',$id)->first();
+        foreach ($data->product_translation_all as $products )
+        return $data;
+        //}
+    }
+    public function my_products(Request $request)
+    {
         $userId =  Auth::user()->id;
         $data = DB::table('company')
         ->join('users', 'users.company_id', '=', 'company.id')
-        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->join('product', 'product.companyId', '=', 'company.id')
+        ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('users.id', '=',   $userId )
-        ->where('company_translation.lang', '=', 'en' )
-        ->select('*')
+        ->where('product_translation.lang', '=', 'en' )
+        ->select(['product.id','product.photo','product.price','product.discount_price','product.title', 'product.created_at'])
         ->get();
+       if ($request->ajax()) 
+       {
+ 
+        return Datatables::of($data)
+        ->addColumn('image', function ($data) { 
+            $url= asset("http://savingapp.co/AdminCp/storage/app/public/$data->photo");
+            return '<img src="'.$url.'" border="0" width="100" height"70" class="img-rounded" align="center" />';
+        })
+        ->addColumn('action', function ($data) {
+           
+            return '<a  href="javascript:void(0)" data-toggle="tooltip"    data-id="'.$data->id.'" class="btn btn-sm btn-primary pull-right edit"><i class="voyager-edit"></i></a>
+               <a href="javascript:void(0)"  data-id="'.$data->id.'" class="btn btn-sm btn-danger pull-right delete"><i class="voyager-trash"></i></a>';
+    })
+        ->rawColumns(['image', 'action'])
+        ->make(true);
+     }
         return view('my_products',compact('data'));
     }
 
@@ -541,7 +607,6 @@ class CustomerController extends Controller
         $card = DB::table('users')
         ->where('users.phone', '=', $moblie )->select('users.id')->first();
         DB::table('cart')->where('userId', '=', $card->id)->where('productId', '=', $id)->delete();
-
     }
     public function removallcart($moblie)
     { 
