@@ -9,7 +9,7 @@
             <?php echo e(csrf_field()); ?>
 
             <div class="form-group form-group-default" id="emailGroup">
-                <label>Mobile</label>
+            <label>Mobile</label>
                 <div class="controls">
                 <input type="text" name="phone" value="<?php echo e(old('phone')); ?>"  class="form-control" required>
                 </div>
