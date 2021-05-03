@@ -450,14 +450,13 @@ class CustomerController extends Controller
         DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','en')->update($product_trs_en);
         DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','ar')->update($product_trs_ar);
         DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','ku')->update($product_trs_ku);
-        return response()->json(['success'=>'Item saved successfully.']);
         return redirect('path')->with(['message' => "Product Update data Successfully", 'alert-type' => 'success']);
     }
     public function remove_products(Request $request,$id)
     {
         DB::table('product_translation')->where('product_translation.productId',$id)->delete();
         DB::table('product')->where('id',$id)->delete();
-        return redirect('path')->with(['message' => "Product deleted Successfully", 'alert-type' => 'error']);
+        return redirect('path')->with(['message' => "Product deleted Successfully", 'alert-type' => 'success']);
     }
     public function edit_product(Request $request,$id)
     {
@@ -557,7 +556,7 @@ class CustomerController extends Controller
             if(!empty($card))
                 {
                 $end_active =date('Y-m-d',strtotime($day_str,strtotime($card->end_active)));
-                DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$card->usersId, $card->id,$day->points ]);
+                DB::insert('insert into points ( `userId`, `cardId`, `point`) values (?,?,?)', [$card->usersId, $card->id,$day->points ]);
                 DB::table('card_user')->where('id', $card->id)->update(['end_active' => $end_active]);
                 DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
                 return   response()->json( $end_active);
@@ -566,7 +565,7 @@ class CustomerController extends Controller
                 {
                     $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
                     DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$userIds->id,$new, $end_active]);
-                    DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$userIds->id,$customers->id,$day->points ]);
+                    DB::insert('insert into points ( `userId`, `cardId`, `point`) values (?,?,?)', [$userIds->id,$customers->id,$day->points ]);
                     DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
                     return   response()->json($end_active);
                 }
@@ -575,7 +574,7 @@ class CustomerController extends Controller
             $end_active =date('Y-m-d',strtotime($day_str,strtotime(str_replace('/', '-', $new))));
             $user_id= DB::table('users')->insertGetId(array('phone' => $moblie));
             DB::insert('insert into card_user ( `card_id`, `user_id`, `strat_active`, `end_active`) values (?,?,?,?)', [$customers->id,$user_id,$new, $end_active]);
-            DB::insert('insert into points ( `userId`, `cardId`, `ponts`) values (?,?,?)', [$user_id,$customers->id,$day->points ]);
+            DB::insert('insert into points ( `userId`, `cardId`, `point`) values (?,?,?)', [$user_id,$customers->id,$day->points ]);
             DB::table('card')->where('id', $customers->id)->update(['is_valid' => 0]);
             return   response()->json( $end_active);
             }
@@ -723,7 +722,7 @@ class CustomerController extends Controller
             $user_info = DB::table('users')
             ->join('points', 'points.userId', '=', 'users.id')
             ->where('users.id', '=', $userId->id )
-            ->sum('points.ponts');
+            ->sum('points.point');
             return response()->json($user_info);
         }
         
@@ -879,7 +878,7 @@ class CustomerController extends Controller
         ->join('gift', 'gift.id', '=', 'winner.gift_id')
         ->join('gift_type', 'gift_type.id', '=', 'gift.gift_type_id')
         ->join('gift_translation', 'gift_translation.giftId', '=', 'gift.id')
-        ->select('gift.phont','users.phone','gift_translation.title','gift_translation.desc','winner.created_at as date','gift_type.title as type')
+        ->select('gift.phont','users.phone','users.name','gift_translation.title','gift_translation.desc','winner.created_at as date','gift_type.title as type')
         ->where('gift_translation.lang', '=', $lang )
         ->get();
 
@@ -888,16 +887,16 @@ class CustomerController extends Controller
     }
     public function approval(Request $request ,$id)
     { 
+        $order=DB::table('order')->where('id',$id)->first();
+        $point_order =(int) ($order->order_total * 0.001);
         DB::table('order')->where('id',$id)->update(['is_accepted' => '1']);
-
-        return response()->json(['success'=>'Item saved successfully.']);
+        DB::insert('insert into points ( `userId`, `orderId`,`point`) values (?,?,?)', [$order->userId,$order->id,$point_order]);
+        return redirect('path')->with(['message' => "Product approval Successfully", 'alert-type' => 'success']);
         
     }
     public function rejection(Request $request ,$id)
     { 
         DB::table('order')->where('id',$id)->update(['is_accepted' => '2']);
-
-        return response()->json(['success'=>'Item saved successfully.']);
-        
+        return redirect('path')->with(['message' => "Product rejection Successfully", 'alert-type' => 'success']);     return response()->json(['success'=>'Item saved successfully.']);
     }
 }
