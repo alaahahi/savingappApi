@@ -418,16 +418,23 @@ class CustomerController extends Controller
         }
         return view('my_orders',compact('data'));
     }
+    public function submitPhoto(Request $request, $id)
+        {
+            $input = Input::all();
+            dd($input);
+            die();
+        }
     public function edit_products(Request $request,$id)
     {
+     
+        $request->image->move(public_path('images'), $imageName);
         $item= [ 
          'title'=> $request->title,
          'visible'=> $request->visible,
          'price'=> $request->price,
          'discount_price'=> $request->discount_price,
-         //'photo'=> $request->image,
+         'photo'=> $request->image,
         ];
-
         $product_trs_en = [ 
             'title' => $request->translation_title_en,
             'desc' => $request->translation_desc_en,
@@ -898,5 +905,18 @@ class CustomerController extends Controller
     { 
         DB::table('order')->where('id',$id)->update(['is_accepted' => '2']);
         return redirect('path')->with(['message' => "Product rejection Successfully", 'alert-type' => 'success']);     return response()->json(['success'=>'Item saved successfully.']);
+    }
+    public function user_info($moblie)
+    { 
+        $userId = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('id')->first();
+        if(!empty($userId))
+        {
+            $user_info = DB::table('users')
+            ->where('users.id', '=', $userId->id )
+            ->select('*')->first();
+            return response()->json($user_info);
+        }
+        
     }
 }

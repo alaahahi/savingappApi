@@ -49,5 +49,6 @@ Route::get('getusercompany/{moblie?}', [CustomerController::class, 'getusercompa
 Route::post('productcompany/{moblie?}', [CustomerController::class, 'productcompany']);
 Route::get('gift/{lang?}', [CustomerController::class, 'gift']);
 Route::get('winner/{lang?}', [CustomerController::class, 'winner']);
+Route::get('user_info/{moblie?}', [CustomerController::class, 'user_info']);
 
 
