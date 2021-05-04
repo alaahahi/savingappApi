@@ -919,4 +919,16 @@ class CustomerController extends Controller
         }
         
     }
+    public function edit_user_info(Request $request ,$moblie)
+    { 
+        $name=$request->name;
+        $userId = DB::table('users')
+        ->where('users.phone', '=', $moblie )->select('id')->first();
+        if(!empty($userId))
+        {
+            DB::table('users')->where('id',$userId->id)->update(['name' => $name]);
+            return response()->json('Update user info');
+        }
+        
+    }
 }
