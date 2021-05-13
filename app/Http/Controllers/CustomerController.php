@@ -418,46 +418,87 @@ class CustomerController extends Controller
         }
         return view('my_orders',compact('data'));
     }
-    public function submitPhoto(Request $request, $id)
-        {
-            $input = Input::all();
-            dd($input);
-            die();
-        }
     public function edit_products(Request $request,$id)
     {
-     
-        $request->image->move(public_path('images'), $imageName);
+        $date = Carbon::now();
+  
+        $monthName = $date->format('F');
+        $year = $date->format('Y');
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+          ]);
+          if ($request->file('file')) {
+              $imagePath = $request->file('file');
+              $imageName = time().'.'.$request->file->extension();
+              //$imageName = $imagePath->getClientOriginalName();
+              $path = $request->file('file')->storeAs('product/'.$monthName.$year, $imageName, 'public');
+          }
         $item= [ 
          'title'=> $request->title,
          'visible'=> $request->visible,
          'price'=> $request->price,
          'discount_price'=> $request->discount_price,
-         'photo'=> $request->image,
+         'photo'=> 'product/'.$monthName.$year.'/'.$imageName
         ];
-        $product_trs_en = [ 
-            'title' => $request->translation_title_en,
-            'desc' => $request->translation_desc_en,
-            'lang'=> 'en',
-            'productId'=>$id
+        if($id == 0 ){
+            $userId =  Auth::user()->id;
+            $company_id = DB::table('company')
+            ->join('users', 'users.company_id', '=', 'company.id')
+            ->where('users.id', '=',  $userId )
+            ->select('company.id')
+            ->first();
+            $product_id= DB::table('product')->insertGetId(array('photo' => $item['photo'],'price' => $item['price'],'discount_price'=>$item['discount_price'],'visible'=>$item['visible'],'companyId'=>$company_id->id,'title'=>$item['title'])); 
+            $translation =[
+            [ 
+                'title' => $request->translation_title_en,
+                'desc' => $request->translation_desc_en,
+                'lang'=> 'en',
+                'productId'=>$product_id
+            ],
+            [ 
+                'title' => $request->translation_title_ar,
+                'desc' => $request->translation_desc_ar,
+                'lang' => 'ar',
+                'productId'=>$product_id
+            ],
+            [ 
+                'title' => $request->translation_title_ku,
+                'desc' => $request->translation_desc_ku,
+                'lang' => 'ku',
+                'productId'=>$product_id
+            ]
         ];
-        $product_trs_ar = [ 
-            'title' => $request->translation_title_ar,
-            'desc' => $request->translation_desc_ar,
-            'lang' => 'ar',
-            'productId'=>$id
-        ];
-        $product_trs_ku = [ 
-            'title' => $request->translation_title_ku,
-            'desc' => $request->translation_desc_ku,
-            'lang' => 'ku',
-            'productId'=>$id
-        ];
+        //return response()->json($translation);
+        DB::table('product_translation')->insert($translation);
+        return response()->json('Added Product');
+        }
+        else
+        {
+            $product_trs_en = [ 
+                'title' => $request->translation_title_en,
+                'desc' => $request->translation_desc_en,
+                'lang'=> 'en',
+                'productId'=>$id
+            ];
+            $product_trs_ar = [ 
+                'title' => $request->translation_title_ar,
+                'desc' => $request->translation_desc_ar,
+                'lang' => 'ar',
+                'productId'=>$id
+            ];
+            $product_trs_ku = [ 
+                'title' => $request->translation_title_ku,
+                'desc' => $request->translation_desc_ku,
+                'lang' => 'ku',
+                'productId'=>$id
+            ];
         DB::table('product')->where('id',$id)->update($item);
         DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','en')->update($product_trs_en);
         DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','ar')->update($product_trs_ar);
         DB::table('product_translation')->where('product_translation.productId',$id)->where('product_translation.lang','ku')->update($product_trs_ku);
-        return redirect('path')->with(['message' => "Product Update data Successfully", 'alert-type' => 'success']);
+        return response()->json('Update Product');
+        }
+        //return redirect('path')->with(['message' => "Product Update data Successfully", 'alert-type' => 'success']);
     }
     public function remove_products(Request $request,$id)
     {
@@ -819,6 +860,7 @@ class CustomerController extends Controller
     }
     public function productcompany(Request $request ,$moblie)
     {
+
   
         $product =$request;
         $company_id = DB::table('users')
@@ -931,4 +973,5 @@ class CustomerController extends Controller
         }
         
     }
+    
 }

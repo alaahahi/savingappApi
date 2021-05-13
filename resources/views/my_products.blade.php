@@ -1,5 +1,6 @@
 @extends('voyager::master')
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-5">
@@ -8,7 +9,7 @@
                     <h3><strong>My Product</strong></h3>
                 </div>
             </div>
-             <a href="" class="btn btn-primary">Add Product</a>
+             <a href="javascript:void(0)" class="btn btn-primary add">Add Product</a>
             <!-- <a href="" class="btn btn-primary">Download ALL Order</a> -->
             <br>
             <div class="row">
@@ -60,21 +61,21 @@
             </button>
         </div>
     </div>
-    </div>
       <div class="modal-body">
-        <form>
         <div class="container-fluid">
+        <form method="post" id="upload-image-form" enctype="multipart/form-data">
+        @csrf
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="title" class="col-form-label">Title:</label>
-                    <input type="text" class="form-control" id="title">
+                    <input type="text" class="form-control" name="title"  id="title" >
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="visible" class="col-form-label">Visible:</label>
-                <input type="text" class="form-control" id="visible">
+                <input type="text" class="form-control" name="visible" id="visible">
             </div>
           </div>
         </div>
@@ -82,37 +83,34 @@
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="price" class="col-form-label">Price:</label>
-                <input type="text" class="form-control" id="price">
+                <input type="text" class="form-control" name="price"  id="price">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="discount_price-name" class="col-form-label">Discount Price:</label>
-                <input type="text" class="form-control" id="discount_price">
+                <input type="text" class="form-control" name="discount_price" id="discount_price">
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-        <a href="#" class="voyager-x remove-single-image" style="position:absolute;"></a>
-        <img id="image" style="max-width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
-    </div>
-                <img src="" border="0" width="100" height"70" class="img-rounded" align="center" " id="image" />
-                </div>
+        <div class="form-group">
+            <input type="file" name="file" class="form-control" name="image-input" id="image-input">
+            <span class="text-danger" id="image-input-error"></span>
+        </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="translation_title_en" class="col-form-label">Translation Title<Title>En</Title> </label>
-                <input type="text" class="form-control" id="translation_title_en">
+                <input type="text" class="form-control" name="translation_title_en" id="translation_title_en">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="translation_desc_en" class="col-form-label">Translation Desc<Title>En</Title> </label>
-                <input type="text" class="form-control" id="translation_desc_en">
+                <input type="text" class="form-control" name="translation_desc_en" id="translation_desc_en">
                 </div>
             </div>
         </div>
@@ -120,13 +118,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="translation_title_ar" class="col-form-label">Translation Title<Title>Ar</Title> </label>
-                <input type="text" class="form-control" id="translation_title_ar">
+                <input type="text" class="form-control" name="translation_title_ar" id="translation_title_ar">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="translation_desc_ar" class="col-form-label">Translation Desc<Title>Ar</Title> </label>
-                <input type="text" class="form-control" id="translation_desc_ar">
+                <input type="text" class="form-control" name="translation_desc_ar" id="translation_desc_ar">
                 </div>
             </div>
         </div>
@@ -134,24 +132,23 @@
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="translation_title_ku" class="col-form-label">Translation Title<Title>Ku</Title> </label>
-                <input type="text" class="form-control" id="translation_title_ku">
+                <input type="text" class="form-control" name="translation_title_ku" id="translation_title_ku">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                 <label for="translation_desc_ku" class="col-form-label">Translation Desc<Title>Ku</Title> </label>
-                <input type="text" class="form-control" id="translation_desc_ku">
+                <input type="text" class="form-control" name="translation_desc_ku" id="translation_desc_ku">
                 </div>
             </div>
         </div>
         </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save">Save</button>
-      </div>
+        <button type="submit" class="btn btn-success">Save</button></div>
     </div>
+    </form>
   </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
@@ -170,10 +167,19 @@
             {data: 'action', name: 'action'},
         ]
     });
+    
+    $('body').on('click', '.add', function () { 
+        $('.modal-product').modal('show');
+    });
 
 
     $('body').on('click', '.edit', function () {
-      var Item_id = $(this).data('id');
+        let Item_id;
+        if($(this).data('id')){
+        Item_id = $(this).data('id');
+       }else{
+       Item_id = 0 ;
+        }
       $.ajax({
             type: "GET",
             url:"{{ route('admin.edit_product') }}/"+Item_id,
@@ -189,42 +195,53 @@
                 $('#translation_desc_ar').val(product.product_translation_all.filter(x => x.lang==='ar').map(x => x.desc));
                 $('#translation_title_ku').val(product.product_translation_all.filter(x => x.lang==='ku').map(x => x.title));
                 $('#translation_desc_ku').val(product.product_translation_all.filter(x => x.lang==='ku').map(x => x.desc));
-                $('.save').attr('data-id' , product.id);
+                $('#upload-image-form').attr('data-id' , product.id);
+                $('#upload-image-form').attr('data-company' , product.companyId);
+                $('.edit').attr('data-company' , product.companyId);
                 $('.modal-product').modal('show');
             },
             error: function (data) {
                 console.log('Error:', data);
             }
         });
-        $('body').on('click', '.save', function () {
-            var Item_id = $(this).data('id');
-$.ajax({
-        type: 'PUT' ,
-        url:"{{ route('admin.edit_products') }}/"+Item_id,
-        data: 
-        {
-            title:$('#title').val(),
-            visible:$('#visible').val() ,
-            price:$('#price').val() ,
-            discount_price:$('#discount_price').val() ,
-            //image:$('#image').val(),
-            translation_title_en:$('#translation_title_en').val() ,
-            translation_desc_en:$('#translation_desc_en').val(),
-            translation_title_ar:$('#translation_title_ar').val() ,
-            translation_desc_ar:$('#translation_desc_ar').val() ,
-            translation_title_ku:$('#translation_title_ku').val() ,
-            translation_desc_ku:$('#translation_desc_ku').val() ,
+    });
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-        },
-        dataType: 'json',
-        success:function(data){
-            $('.modal-product').modal('hide');
-            table.draw();
-        }});
+   $('#upload-image-form').submit(function(e) {
+       e.preventDefault();
+       let Item_id
+       let formData = new FormData(this);
+       if($(this).data('id')){
+        Item_id = $(this).data('id');
+       }else{
+       Item_id = 0 ;
+        }
+       var Company_id = $(this).data('company');
+       $('#image-input-error').text('');
+       $.ajax({
+          type:'POST',
+          url:"{{ route('admin.edit_products') }}/"+Item_id,
+           data: formData,
+           contentType: false,
+           processData: false,
+           success: (response) => {
+             if (response) {
+               this.reset();
+               alert('Image has been uploaded successfully');
+               $('.modal-product').modal('hide');
+                table.draw();
+             }
+           },
+           error: function(response){
+              console.log(response);
+                $('#image-input-error').text(response.responseJSON.errors.file);
+           }
+       });
   });
-  });
-
-
 });
 $('body').on('click', '.delete', function () {
             var Item_id = $(this).data('id');

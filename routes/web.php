@@ -28,5 +28,5 @@ Route::get('admin/my_products', [CustomerController::class, 'my_products'])->nam
 Route::get('admin/approval/{id?}', [CustomerController::class, 'approval'])->name('admin.approval');
 Route::get('admin/rejection/{id?}', [CustomerController::class, 'rejection'])->name('admin.rejection');
 Route::get('admin/edit_product/{id?}', [CustomerController::class, 'edit_product'])->name('admin.edit_product');
-Route::put('admin/edit_products/{id?}', [CustomerController::class, 'edit_products'])->name('admin.edit_products');
+Route::Post('admin/edit_products/{id?}', [CustomerController::class, 'edit_products'])->name('admin.edit_products');
 Route::delete('admin/remove_products/{id?}', [CustomerController::class, 'remove_products'])->name('admin.remove_products');
