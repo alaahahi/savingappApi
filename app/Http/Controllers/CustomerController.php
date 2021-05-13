@@ -411,9 +411,14 @@ class CustomerController extends Controller
         $lang ='en';
         $companyId =  Auth::user()->company_id;
         $data = Order::Where('companyId', $companyId)->get();
+        if(!empty($data)){
         foreach ($data as $order )
+        {
         $order->setAttribute('user_phone',($order->users->phone));
-        foreach ( $order->product as $products );
+        foreach ( $order->product as $products )
+        $products->setAttribute('title_translation',($products->product_translation($lang)->first()->title));
+        }
+    }
         return view('my_orders',compact('data'));
     }
     public function edit_products(Request $request,$id)
@@ -500,8 +505,8 @@ class CustomerController extends Controller
     }
     public function remove_products(Request $request,$id)
     {
-        DB::table('product_translation')->where('product_translation.productId',$id)->delete();
-        DB::table('product')->where('id',$id)->delete();
+        DB::table('product_translation')->where('product_translation.productId',$id)->update(['deleted_at' => Carbon::now()]);
+        DB::table('product')->where('id',$id)->update(['deleted_at' => Carbon::now()]);
         return redirect('path')->with(['message' => "Product deleted Successfully", 'alert-type' => 'success']);
     }
     public function edit_product(Request $request,$id)
@@ -521,6 +526,7 @@ class CustomerController extends Controller
         ->join('product', 'product.companyId', '=', 'company.id')
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('users.id', '=',   $userId )
+        ->where('product.deleted_at', '=',  null )
         ->where('product_translation.lang', '=', 'en' )
         ->select(['product.id','product.photo','product.price','product.discount_price','product.title', 'product.created_at'])
         ->get();
@@ -688,12 +694,15 @@ class CustomerController extends Controller
         ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
         ->where('company_translation.title', 'like', "%{$q}%")
         ->where('company_translation.lang', '=', $lang )
+        ->where('company.visible', '=', '1' )
         ->select('*')
         ->get();
         $products = DB::table('product')
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('product_translation.title', 'like', "%{$q}%")
         ->where('product_translation.lang', '=', $lang )
+        ->where('product.visible', '=', '1' )
+        ->where('product.deleted_at', '=',  null )
         ->select('*')
         ->get();
          
@@ -733,6 +742,7 @@ class CustomerController extends Controller
         ->join('product', 'product.companyId', '=', 'company.id')
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('company.id', '=', $companyId )
+        ->where('product.deleted_at', '=',  null )
         ->where('product.visible', '=', '1' )
         ->where('product_translation.lang', '=', $lang )
         ->select('*')
@@ -751,6 +761,7 @@ class CustomerController extends Controller
         $products = DB::table('product')
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('product.featured', '=', true )
+        ->where('product.deleted_at', '=',  null )
         ->where('product_translation.lang', '=', $lang )
         ->select('*')
         ->get();
