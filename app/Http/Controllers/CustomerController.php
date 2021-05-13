@@ -411,11 +411,9 @@ class CustomerController extends Controller
         $lang ='en';
         $companyId =  Auth::user()->company_id;
         $data = Order::Where('companyId', $companyId)->get();
-        foreach ($data as $order ){
+        foreach ($data as $order )
         $order->setAttribute('user_phone',($order->users->phone));
-        foreach ( $order->product as $products )
-        $products->setAttribute('title_translation',($products->product_translation($lang)->first()->title));
-        }
+        foreach ( $order->product as $products );
         return view('my_orders',compact('data'));
     }
     public function edit_products(Request $request,$id)
