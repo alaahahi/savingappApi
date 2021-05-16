@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Order_details;
+use App\Models\App_config;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Yajra\DataTables\DataTables;
@@ -982,5 +983,8 @@ class CustomerController extends Controller
         }
         
     }
-    
+    public function app_config(Request $request )
+    { 
+        return response()->json(App_config::all());
+    }
 }
