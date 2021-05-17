@@ -924,7 +924,7 @@ class CustomerController extends Controller
     }
     public function gift(Request $request ,$lang)
     { 
-        $gift=Gift::all();
+        $gift=Gift::where('visible',1)->get();
         foreach ($gift as $gifts)
         $gifts->setAttribute('gift_translation',($gifts->gift_translation($lang)->first()));
         return response()->json($gift);
