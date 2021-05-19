@@ -756,6 +756,7 @@ class CustomerController extends Controller
         DB::table('company')
         ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
         ->where('company.featured', '=', true )
+        ->where('company.visible', '=', '1' )
         ->where('company_translation.lang', '=', $lang )
         ->select('*')
         ->get();
@@ -763,6 +764,7 @@ class CustomerController extends Controller
         ->join('product_translation', 'product_translation.productId', '=', 'product.id')
         ->where('product.featured', '=', true )
         ->where('product.deleted_at', '=',  null )
+        ->where('product.visible', '=', '1' )
         ->where('product_translation.lang', '=', $lang )
         ->select('*')
         ->get();
