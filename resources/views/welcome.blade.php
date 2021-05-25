@@ -148,7 +148,7 @@
                             <strong>IOS</strong></h5>
                         <p class="mbr-text mbr-fonts-style mb-3 display-4">
                             Select the theme that suits you. Each theme in the Mobirise website building software contains a set of unique blocks.</p>
-                        <div class="mbr-section-btn"><a href="#" class="btn btn-black display-4">Download</a></div>
+                        <div class="mbr-section-btn"><a href="https://apps.apple.com/us/app/savingapp/id1566123811" class="btn btn-black display-4">Download</a></div>
                     </div>
                     <div class="img-wrapper img2 align-center">
                         <span class="mbr-iconfont socicon-apple socicon"></span>
@@ -494,7 +494,7 @@
                 </h3>
                 <div class="social-list align-center">
                    
-                    <a class="iconfont-wrapper bg-facebook m-2 " target="_blank" href="#">
+                    <a class="iconfont-wrapper bg-facebook m-2 " target="_blank" href="https://www.facebook.com/Saving-App-103908491609723">
                             <span class="socicon-facebook socicon"></span>
                         </a>
                         <a class="iconfont-wrapper bg-twitter m-2" href="#" target="_blank">
