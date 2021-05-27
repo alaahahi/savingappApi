@@ -981,7 +981,12 @@ class CustomerController extends Controller
         if(!empty($userId))
         {
             DB::table('users')->where('id',$userId->id)->update(['name' => $name]);
-            return response()->json('Update user info');
+            return response()->json('Update Info');
+        }
+        else
+        {
+            $user_id= DB::table('users')->insertGetId(array('phone' => $moblie,'name' => $name));
+            return response()->json('Add info');
         }
         
     }
