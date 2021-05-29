@@ -103,13 +103,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                <label for="translation_title_en" class="col-form-label">Translation Title<Title>En</Title> </label>
+                <label for="translation_title_en" class="col-form-label">Translation Title <B>En</B> </label>
                 <input type="text" class="form-control" name="translation_title_en" id="translation_title_en">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                <label for="translation_desc_en" class="col-form-label">Translation Desc<Title>En</Title> </label>
+                <label for="translation_desc_en" class="col-form-label">Translation Desc <B>En</B> </label>
                 <input type="text" class="form-control" name="translation_desc_en" id="translation_desc_en">
                 </div>
             </div>
@@ -117,13 +117,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                <label for="translation_title_ar" class="col-form-label">Translation Title<Title>Ar</Title> </label>
+                <label for="translation_title_ar" class="col-form-label">Translation Title <B>Ar</B> </label>
                 <input type="text" class="form-control" name="translation_title_ar" id="translation_title_ar">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                <label for="translation_desc_ar" class="col-form-label">Translation Desc<Title>Ar</Title> </label>
+                <label for="translation_desc_ar" class="col-form-label">Translation Desc <B>Ar</B> </label>
                 <input type="text" class="form-control" name="translation_desc_ar" id="translation_desc_ar">
                 </div>
             </div>
@@ -131,13 +131,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                <label for="translation_title_ku" class="col-form-label">Translation Title<Title>Ku</Title> </label>
+                <label for="translation_title_ku" class="col-form-label">Translation Title <B>Ku</B> </label>
                 <input type="text" class="form-control" name="translation_title_ku" id="translation_title_ku">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                <label for="translation_desc_ku" class="col-form-label">Translation Desc<Title>Ku</Title> </label>
+                <label for="translation_desc_ku" class="col-form-label">Translation Desc <B>Ku</B> </label>
                 <input type="text" class="form-control" name="translation_desc_ku" id="translation_desc_ku">
                 </div>
             </div>
