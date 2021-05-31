@@ -844,6 +844,13 @@ class CustomerController extends Controller
         {
         $orders = Order::Where('userId', $userIds->id)->get();
         foreach ($orders as $order ){
+        $order->setAttribute('title_company',
+        (DB::table('company')
+        ->join('company_translation', 'company_translation.companyId', '=', 'company.id')
+        ->where('company.id', '=', $order->companyId)
+        ->where('company_translation.lang', '=', $lang )
+        ->select('company_translation.title')->first())->title
+    );
         foreach ( $order->product as $products )
         $products->setAttribute('title_translation',($products->product_translation($lang)->first()->title));
         }
