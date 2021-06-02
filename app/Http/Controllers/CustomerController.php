@@ -1001,4 +1001,9 @@ class CustomerController extends Controller
     { 
         return response()->json(App_config::all());
     }
+    public function removorder($id)
+    { 
+        DB::table('order')->where('order.id', '=',$id)->delete();
+        return response()->json("Removed");
+    }
 }
