@@ -1006,4 +1006,9 @@ class CustomerController extends Controller
         DB::table('order')->where('order.id', '=',$id)->delete();
         return response()->json("Removed");
     }
+    public function feedbackorder($id,$rating,$comment)
+    { 
+        DB::table('order')->where('id',$id)->update(['service_rating' =>$rating,'service_comment'=>$comment]);
+        return response()->json("Add Services Ratting");
+    }
 }
