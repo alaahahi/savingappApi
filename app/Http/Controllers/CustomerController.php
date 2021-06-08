@@ -980,9 +980,8 @@ class CustomerController extends Controller
         }
         
     }
-    public function edit_user_info(Request $request ,$moblie)
+    public function edit_user_info(Request $request ,$moblie,$name)
     { 
-        $name=$request->name;
         $userId = DB::table('users')
         ->where('users.phone', '=', $moblie )->select('id')->first();
         if(!empty($userId))
@@ -995,7 +994,6 @@ class CustomerController extends Controller
             $user_id= DB::table('users')->insertGetId(array('phone' => $moblie,'name' => $name));
             return response()->json('Add info');
         }
-        
     }
     public function app_config(Request $request )
     { 

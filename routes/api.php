@@ -50,7 +50,7 @@ Route::post('productcompany/{moblie?}', [CustomerController::class, 'productcomp
 Route::get('gift/{lang?}', [CustomerController::class, 'gift']);
 Route::get('winner/{lang?}', [CustomerController::class, 'winner']);
 Route::get('user_info/{moblie?}', [CustomerController::class, 'user_info']);
-Route::post('edit_user_info/{moblie?}', [CustomerController::class, 'edit_user_info']);
+Route::get('edit_user_info/{moblie?}/{name?}', [CustomerController::class, 'edit_user_info']);
 Route::get('app_config/', [CustomerController::class, 'app_config']);
 Route::delete('removorder/{id?}', [CustomerController::class, 'removorder']);
 Route::get('feedbackorder/{id?}/{rating?}/{comment?}', [CustomerController::class, 'feedbackorder']);
