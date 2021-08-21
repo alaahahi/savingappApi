@@ -1,3 +1,4 @@
+<meta http-equiv="refresh" content="50">
 @extends('voyager::master')
 
 

@@ -422,7 +422,7 @@
                             <strong>Email</strong>
                         </h6>
                         <p class="mbr-text mbr-fonts-style display-7">
-                            <a href="mailto:info@site.com" class="text-secondary">info@savingapp.co</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+                            <a href="mailto:info@savingapp.co" class="text-secondary">info@savingapp.co</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
                     </div>
                 </div>
             </div>
@@ -465,6 +465,12 @@
                         <div class="col-lg-12 col-md col-12 form-group" data-for="email">
                             <input type="email" name="email" placeholder="Email" data-form-field="email" class="form-control" value="" id="email-form4-v">
                         </div>
+                        <div class="col-lg-12 col-md col-12 form-group" data-for="phone">
+                            <input type="phone" name="phone" placeholder="Phone" data-form-field="phone" class="form-control" value="" id="phone-form4-v">
+                        </div>
+                        <div class="col-lg-12 col-md col-12 form-group" data-for="content">
+                            <input type="content" name="content" placeholder="Massage" data-form-field="phone" class="form-control" value="" id="content-form4-v">
+                        </div>
                         <div class="col-12 col-md-auto mbr-section-btn">
                             <button type="submit" class="btn btn-secondary display-4">Submit</button>
                         </div>
@@ -502,15 +508,8 @@
                         </a>
                         <a class="iconfont-wrapper bg-instagram m-2" href="#" target="_blank">
                             <span class="socicon-instagram socicon"></span>
-                        </a>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -518,11 +517,6 @@
 </section>
 
 <section class="footer7 cid-stWnujivOe" once="footers" id="footer7-11">
-
-    
-
-    
-
     <div class="container">
         <div class="media-container-row align-center mbr-white">
             <div class="col-12">
