@@ -790,10 +790,10 @@ class CustomerController extends Controller
     public function orders(Request $request ,$moblie)
     {
         $userIds = DB::table('users')
-        ->join('card_user', 'card_user.user_id', '=', 'users.id')
+        //->join('card_user', 'card_user.user_id', '=', 'users.id')
         ->where('users.phone', '=', $moblie )->select('users.id')->first();
-        //if(!empty($userIds))
-        //{
+        if(!empty($userIds))
+        {
         $now = Carbon::now();
         $products =$request;
         $total=0;
@@ -831,9 +831,9 @@ class CustomerController extends Controller
         DB::table('order')->where('id',$order_id)->update(['order_total' => $total]);
         DB::table('order_details')->insert($item);
             return response()->json("ok");
-    //}
-    //else
-    //return response()->json("Account is Not Valid,Please Activated");
+    }
+    else
+    return response()->json("Account is Not Valid,Please Activated");
         
     }
     public function getorders(Request $request ,$moblie ,$lang)
